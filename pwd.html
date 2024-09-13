@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LockBox | Password Gen</title>
+    <style>
+        body {
+            background-color: #333333;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Navbar styles */
+        nav {
+            overflow: hidden;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav ul li {
+            float: left;
+        }
+
+        nav ul li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 20px;
+            text-decoration: none;
+        }
+
+        nav ul li a:hover {
+            background-color: #ddd;
+        }
+
+        #container {
+            background-color: #444444;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 500px;
+            margin: auto 0;
+            margin-left: 38%;
+            margin-top: 15%;
+        }
+
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        /* For Firefox */
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        button {
+            background-color: #555555;
+            color: #ffffff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #666666;
+        }
+
+        input[type="text"] {
+            width: 95%;
+            padding: 10px;
+            border: 1px solid #888888;
+            border-radius: 4px;
+            background-color: #222222;
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+    <div id="navbar-container"></div>
+
+    <div id="container">
+        <h1>Password Generator</h1>
+        <form id="passwordForm">
+            <div class="form-group">
+                <label for="passwordLen">Password Length:</label>
+                <input type="number" id="passwordLen" name="passwordLen" min="1" max="32" value="12" required>
+            </div>
+            <div class="form-group">
+                <label><input type="checkbox" id="uppercase" name="uppercase"> Include Uppercase Letters</label>
+            </div>
+            <div class="form-group">
+                <label><input type="checkbox" id="lowercase" name="lowercase" checked> Include Lowercase Letters</label>
+            </div>
+            <div class="form-group">
+                <label><input type="checkbox" id="numbers" name="numbers" checked> Include Numbers</label>
+            </div>
+            <div class="form-group">
+                <label><input type="checkbox" id="symbols" name="symbols"> Include Symbols</label>
+            </div>
+            <button type="button" onclick="generatePassword()">Generate Password</button>
+            <div class="form-group">
+                <label for="password">Generated Password:</label>
+                <input type="text" id="password" name="password" readonly>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            fetch('/navbar.html')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('navbar-container').innerHTML = data;
+                });
+        });
+
+        function generatePassword() {
+            const length = parseInt(document.getElementById('passwordLen').value, 10);
+            if (length > 32) {
+                alert("You cannot generate a password longer than 32 characters");
+                return;
+            }
+
+            if (length <= 0) {
+                alert("Nice try");
+                return;
+            }
+
+            const useUppercase = document.getElementById('uppercase').checked;
+            const useLowercase = document.getElementById('lowercase').checked;
+            const useNumbers = document.getElementById('numbers').checked;
+            const useSymbols = document.getElementById('symbols').checked;
+
+            const uppercaseChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            const lowercaseChars = 'abcdefghijklmnopqrstuvwxyz';
+            const numberChars = '0123456789';
+            const symbolChars = '!@#$%^&*()_+[]{}|;:,.<>?';
+
+            let charSet = '';
+            if (useUppercase) charSet += uppercaseChars;
+            if (useLowercase) charSet += lowercaseChars;
+            if (useNumbers) charSet += numberChars;
+            if (useSymbols) charSet += symbolChars;
+
+            let password = '';
+            for (let i = 0; i < length; i++) {
+                const randomIndex = Math.floor(Math.random() * charSet.length);
+                password += charSet[randomIndex];
+            }
+
+            document.getElementById('password').value = password;
+        }
+    </script>
+</body>
+</html>
