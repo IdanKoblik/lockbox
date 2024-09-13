@@ -4,47 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>End of the Internet</title>
-    <style>
-        body {
-            background-color: #0000AA;
-            color: #FFFFFF; 
-            font-family: Consolas, monospace; 
-            text-align: center;
-            padding: 20px;
-            margin: 0;
-        }
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            text-align: left; 
-            margin-top: 15%;
-        }
-        .big {
-            font-size: 6em; 
-            margin: 0; 
-        }
-        .error {
-            font-size: 6em; 
-            margin: 0; 
-        }
-        .small {
-            font-size: 1em; 
-            font-weight: bold;
-        }
-    </style>
+    <link rel="stylesheet" href="/css/404.css">
+    <script src="/scripts/fetchNav.js"></script>
 </head>
 <body>
     <div id="navbar-container"></div>
-    <script>
-     document.addEventListener("DOMContentLoaded", function() {
-         fetch('/navbar.html')
-             .then(response => response.text())
-             .then(data => {
-                 document.getElementById('navbar-container').innerHTML = data;
-             });
-     });
-     </script>
-     
     <div class="container">
         <h1 class="big">:(</h1>
         <h2 class="error">Error 404</h2>
